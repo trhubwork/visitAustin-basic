@@ -1,0 +1,35 @@
+html, body {
+  font-family: Arial, sans-serif;
+
+}
+
+#container {
+  width: 1050px;
+  margin: auto;
+  padding: 5px;
+
+}
+
+button {
+background:rgba(255,81, 19, 1);
+width: 200px;
+color: white;
+}
+
+li {
+  list-style-type:none;
+}
+
+#listview {
+  float: left;
+  width: 300px;
+
+}
+
+
+#map {
+  height: 500px;
+  width: 750px;
+  float:right;
+  display:inline;
+}

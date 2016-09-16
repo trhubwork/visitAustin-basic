@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Visit Austin!</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+<body>
+
+<div id="container">
+  <div id="menu">
+    <h1 data-bind="text: appName"></h1>
+  </div>
+<hr>
+	<div id='search'>
+    <input type="search" name="search" autocomplete="off" placeholder="Search"
+      data-bind="textInput: searchQuery">
+  </div>
+
+
+<div id="listview">
+<h2>My Favorite Spots</h2>
+    <ul id="results" data-bind="foreach: search">
+        <li>
+          <button data-bind="text: title, click: $parent.setInfoWindow" type="button"></button>
+        </li>
+    </ul>
+
+</div>
+
+<div id="map"></div>
+
+</div>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOomDghDBh0XiIpMbixy04-X1aSNnGhkU&callback=initApp" onerror="initApp()">
+</script>
+
+<script src="js/knockout-3.4.0.js"></script>
+<script src="js/app.js"></script>
+
+
+
+</body>
+</html>
