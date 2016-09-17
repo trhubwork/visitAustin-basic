@@ -100,6 +100,13 @@ function ViewModel(){
   self.setInfoWindow = function(){
       setInfoWindowContent(this.marker);
   };
+  // Bounce if clicked
+  self.setTheBounce = function() {
+    setTheBounceClick(this.marker);
+  };
+
+
+
 // start the filter
   self.search = ko.pureComputed(function(){
     return ko.utils.arrayFilter(self.locations(), function(item){
@@ -146,6 +153,17 @@ function initMap() {
         position: position
     });
 
+    function setTheBounceClick(input) {
+      if(marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
+/*      marker.addListener('click', function() {
+        setTheBounceClick(this);
+      }); */
         // Add properties to the model: marker, infowindow
         data.marker = marker;
         data.infowindow = infowindow;
@@ -153,6 +171,7 @@ function initMap() {
     // Click marker to open infowindow
     marker.addListener('click', function() {
       setInfoWindowContent(this);
+      setTheBounceClick(this);
     });
 
     bounds.extend(data.marker.position);
@@ -177,6 +196,9 @@ function ajaxCall(foursquareId,index){
           apiCall = ''+ apiBase + apiVenueId + apiClientId + apiClientSecret + apiVersion +'';
 
       xhr.open('GET', apiCall);
+
+
+
       xhr.onload = function() {
           if (xhr.status === 200) {
               var data = JSON.parse(xhr.responseText);
@@ -185,14 +207,15 @@ function ajaxCall(foursquareId,index){
                 Model.locations[index].marker.foursquare_data = data;
           }
           else {
-              //alert('Request failed. Returned status of ' + xhr.status);
-              apiFallback('foursquare');
+
+          apiFallback('foursquare');
           }
       };
       xhr.send();
 
     } else {
       // do nothing
+
     }
 };
 
@@ -209,7 +232,7 @@ function setInfoWindowContent(input){
 
   ];
 
-  if (input.foursquare_data.hours !== undefined){
+  if (input.foursquare_data.hours !== undefined) {
     var newObject = {label: 'Status', data: input.foursquare_data.hours.status};
     markerData.push(newObject);
   }
