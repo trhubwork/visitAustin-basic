@@ -152,7 +152,7 @@ function initMap() {
         animation: google.maps.Animation.DROP,
         position: position
     });
-
+    
     function setTheBounceClick(input) {
       if(marker.getAnimation() !== null) {
         marker.setAnimation(null);
