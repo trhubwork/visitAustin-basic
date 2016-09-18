@@ -88,6 +88,8 @@ function apiFallback(input){
   }
 }
 
+
+
 function ViewModel(){
 
   var self = this;
@@ -107,6 +109,7 @@ function ViewModel(){
 
 
 
+
 // start the filter
   self.search = ko.pureComputed(function(){
     return ko.utils.arrayFilter(self.locations(), function(item){
@@ -114,7 +117,7 @@ function ViewModel(){
       // Check if searchQuery matches locations array title
       var match = item.title.toLowerCase().indexOf(self.searchQuery().toLowerCase()) >= 0;
 
-      // Lite the marker
+      // eliminate markers not in filter
       item.marker.setVisible(match);
 
       return match;
@@ -152,14 +155,10 @@ function initMap() {
         animation: google.maps.Animation.DROP,
         position: position
     });
-    
-    function setTheBounceClick(input) {
-      if(marker.getAnimation() !== null) {
-        marker.setAnimation(null);
-      } else {
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-      }
-    }
+
+
+
+
 
 /*      marker.addListener('click', function() {
         setTheBounceClick(this);
@@ -171,12 +170,22 @@ function initMap() {
     // Click marker to open infowindow
     marker.addListener('click', function() {
       setInfoWindowContent(this);
-      setTheBounceClick(this);
+
     });
+  /*  marker.addListener('click', function() {
+
+      setTheBounceClick(this);
+    }); */
+
+
+
 
     bounds.extend(data.marker.position);
 
   }
+
+
+
     map.fitBounds(bounds);
 
 }; //initMap
@@ -219,6 +228,18 @@ function ajaxCall(foursquareId,index){
     }
 };
 
+  function setTheBounceClick(input) {
+    if(input.getAnimation() !== null) {
+      input.setAnimation(null);
+    } else {
+      input.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }; setTheBounceClick();
+
+
+
+
+
 function setInfoWindowContent(input){
 
   var infoWindowTemplate = document.createElement('div'),
@@ -236,6 +257,8 @@ function setInfoWindowContent(input){
     var newObject = {label: 'Status', data: input.foursquare_data.hours.status};
     markerData.push(newObject);
   }
+
+
 
   function addInfoWindowContent(){
 
@@ -258,7 +281,7 @@ function setInfoWindowContent(input){
 
           contentList.appendChild(contentItem);
           infoWindowTemplate.appendChild(contentList);
-
+          // put the bounce here?
         } else {
           // do nothing
         }
