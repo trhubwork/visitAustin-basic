@@ -18,5 +18,5 @@
 
     marker.addListener('click', function() {
       this.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png')
-    })
+    });
   */

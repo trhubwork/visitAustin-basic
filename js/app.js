@@ -101,6 +101,7 @@ function ViewModel(){
   // Show infoWindow on list view click
   self.setInfoWindow = function(){
       setInfoWindowContent(this.marker);
+      setTheBounceClick(this.marker);
   };
   // Bounce if clicked
   self.setTheBounce = function() {
@@ -160,9 +161,7 @@ function initMap() {
 
 
 
-/*      marker.addListener('click', function() {
-        setTheBounceClick(this);
-      }); */
+
         // Add properties to the model: marker, infowindow
         data.marker = marker;
         data.infowindow = infowindow;
@@ -170,14 +169,17 @@ function initMap() {
     // Click marker to open infowindow
     marker.addListener('click', function() {
       setInfoWindowContent(this);
-
     });
-  /*  marker.addListener('click', function() {
 
-      setTheBounceClick(this);
+    // Click li to show infowindow
+    /*listitem.addListener('click', function() {
+      setInfoWindowContent(this);
     }); */
 
+    marker.addListener('click', function() {
+      setTheBounceClick(this);
 
+    });
 
 
     bounds.extend(data.marker.position);
@@ -229,13 +231,23 @@ function ajaxCall(foursquareId,index){
 };
 
   function setTheBounceClick(input) {
-    if(input.getAnimation() !== null) {
+
+      if(input.getAnimation() !== null) {
       input.setAnimation(null);
     } else {
       input.setAnimation(google.maps.Animation.BOUNCE);
-    }
-  }; setTheBounceClick();
+  // get the pin to sop bouncing after one bounce
+      function sansBounce() {
+        var noBounce = setTimeout(stopBounce,700);
+        function stopBounce() {
+          input.setAnimation(null);
+        }
+      }
 
+      sansBounce();
+
+      }
+  };
 
 
 
