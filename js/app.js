@@ -60,15 +60,85 @@ var Model = {
               location: {lat: 30.270119, lng: -97.731273},
               foursquare_id: '4d755f73fc766a314d778d1a'
           }
-      ]
+      ],
+
+      styles: [
+            {
+              featureType: 'water',
+              stylers: [
+                { color: '#19a0d8' }
+              ]
+            },{
+              featureType: 'administrative',
+              elementType: 'labels.text.stroke',
+              stylers: [
+                { color: '#ffffff' },
+                { weight: 6 }
+              ]
+            },{
+              featureType: 'administrative',
+              elementType: 'labels.text.fill',
+              stylers: [
+                { color: '#e85113' }
+              ]
+            },{
+              featureType: 'road.highway',
+              elementType: 'geometry.stroke',
+              stylers: [
+                { color: '#efe9e4' },
+                { lightness: -40 }
+              ]
+            },{
+              featureType: 'transit.station',
+              stylers: [
+                { weight: 9 },
+                { hue: '#e85113' }
+              ]
+            },{
+              featureType: 'road.highway',
+              elementType: 'labels.icon',
+              stylers: [
+                { visibility: 'off' }
+              ]
+            },{
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [
+                { lightness: 100 }
+              ]
+            },{
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [
+                { lightness: -100 }
+              ]
+            },{
+              featureType: 'poi',
+              elementType: 'geometry',
+              stylers: [
+                { visibility: 'on' },
+                { color: '#f0e4d3' }
+              ]
+            },{
+              featureType: 'road.highway',
+              elementType: 'geometry.fill',
+              stylers: [
+                { color: '#efe9e4' },
+                { lightness: -25 }
+              ]
+            }
+          ]
+
 };
+
 
 // Global Variables
 var map,
     mapOptions,
     infowindow,
     bounds,
-    geocoder;
+    geocoder,
+    styles;
 
 function initApp(){
   // If gmaps API loads, start our map and apply bindings
@@ -130,8 +200,8 @@ function ViewModel(){
 
 function initMap() {
 
-    mapOptions = { mapTypeControl: false };
-    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    //mapOptions = { mapTypeControl: false };
+    map = new google.maps.Map(document.getElementById('map'), {styles: Model.styles});
 
     infowindow = new google.maps.InfoWindow();
     bounds = new google.maps.LatLngBounds();
@@ -154,13 +224,9 @@ function initMap() {
         map: map,
         title: title,
         animation: google.maps.Animation.DROP,
-        position: position
+        position: position,
+        icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png'
     });
-
-
-
-
-
 
         // Add properties to the model: marker, infowindow
         data.marker = marker;
@@ -170,23 +236,24 @@ function initMap() {
     marker.addListener('click', function() {
       setInfoWindowContent(this);
     });
-
-    // Click li to show infowindow
-    /*listitem.addListener('click', function() {
-      setInfoWindowContent(this);
-    }); */
-
+    // Click marker and have the pin bounce
     marker.addListener('click', function() {
       setTheBounceClick(this);
+    });
+    // Mouseover and mouseout
 
+
+    marker.addListener('mouseover', function() {
+      this.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+    });
+    marker.addListener('mouseout', function() {
+      this.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
     });
 
 
     bounds.extend(data.marker.position);
 
   }
-
-
 
     map.fitBounds(bounds);
 
