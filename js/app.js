@@ -267,7 +267,7 @@ function ajaxCall(foursquareId,index){
       var xhr = new XMLHttpRequest();
 
       var apiBase = 'https://api.foursquare.com/v2/venues/',
-          apiClientId = '&client_id=' + '/32THWD4Y4TYM0VUCOKCXIDIDSFHZVRCXHKSNJSSKKNIPIKC2',
+          apiClientId = '&client_id=' + '32THWD4Y4TYM0VUCOKCXIDIDSFHZVRCXHKSNJSSKKNIPIKC2',
           apiClientSecret = '&client_secret=' + 'BPMLDBXXH0R0DOGN0LIORPPOGU033UUOP152TFPMEZODNA22',
           apiVersion = '&v=' + 20130815,
           apiVenueId = ''+ foursquareId + '/?' + '',
