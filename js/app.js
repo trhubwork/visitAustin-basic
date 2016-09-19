@@ -277,6 +277,7 @@ function ajaxCall(foursquareId,index){
 
 
 
+
       xhr.onload = function() {
           if (xhr.status === 200) {
               var data = JSON.parse(xhr.responseText);
@@ -295,6 +296,7 @@ function ajaxCall(foursquareId,index){
       // do nothing
 
     }
+
 };
 
   function setTheBounceClick(input) {
@@ -305,7 +307,7 @@ function ajaxCall(foursquareId,index){
       input.setAnimation(google.maps.Animation.BOUNCE);
   // get the pin to sop bouncing after one bounce
       function sansBounce() {
-        var noBounce = setTimeout(stopBounce,700);
+        var noBounce = setTimeout(stopBounce,1450);
         function stopBounce() {
           input.setAnimation(null);
         }
@@ -360,9 +362,22 @@ function setInfoWindowContent(input){
 
           contentList.appendChild(contentItem);
           infoWindowTemplate.appendChild(contentList);
-          // put the bounce here?
+
         } else {
-          // do nothing
+
+          //  labelData = '<strong>Data Not Available</strong>';
+          if (i == 0){
+            labelData = '<h2>' + data + '</h2>';
+          } else {
+            labelData = '<strong>' + label + '</strong>' + ": " + 'Data not available' ;
+          }
+
+          contentItem = document.createElement('li');
+          contentItem.innerHTML = labelData;
+
+          contentList.appendChild(contentItem);
+          infoWindowTemplate.appendChild(contentList);
+
         }
 
       });
