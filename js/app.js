@@ -153,6 +153,7 @@ function initApp(){
 function apiFallback(input){
   if (input === 'gmaps'){
     console.log('gmaps');
+    window.alert('gmaps info is not available');
   } else if (input === 'foursquare'){
     console.log('foursquare');
     window.alert('foursquare info is not available');
@@ -285,14 +286,13 @@ function ajaxCall(foursquareId,index){
                 Model.locations[index].marker.foursquare_data = data;
           }
           else {
-
           apiFallback('foursquare');
-          xhr.onerror = function() {
-            console.log("** Foresquare data has failed to load. Please refresh or try again later");
-          };
-
         }
+      };
 
+      xhr.onerror = function() {
+        apiFallback('foursquare');
+        console.log("** Foursquare data has failed to load. Please refresh or try again later");
       };
 
       xhr.send();
@@ -350,7 +350,7 @@ function setInfoWindowContent(input){
 
   function addInfoWindowContent(){
 
-    infoWindowTemplate = 'div class ="window-content"><ul>';
+    infoWindowTemplate = '<div class ="window-content"><ul>';
 
     markerData.forEach(function(item, i){
 
