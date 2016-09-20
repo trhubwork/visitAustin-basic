@@ -21,12 +21,12 @@ var Model = {
               foursquare_id: '4b79ad6ef964a520670a2fe3'
           },
           {
-              title: '6th Street Music District',
-              name : '6th Street Music District',
+              title: 'Easy Tiger',
+              name : 'Easy Tiger',
               imgSrc : 'img/6thstreet.jpg',
               imgAttribution : 'https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwjutpGFrI_PAhXI6iYKHXaAAOIQjRwIBw&url=http%3A%2F%2Fwww.doudout.com%2F6th%2F6th-street-austin-tx-map&psig=AFQjCNHovCq2oTJSfEsWdfKJ_imPa3Tr-A&ust=1473958329889876',
-              location: {lat: 30.274663, lng: -97.7611626},
-              foursquare_id: '4bf8b3c65317a5931457007f'
+              location: {lat: 30.26588, lng: -97.735678},
+              foursquare_id: '4d6e81901c1041bd009d5d28'
           },
           {
               title: 'Darrell K. Royal Stadium',
@@ -45,12 +45,12 @@ var Model = {
               foursquare_id: '4a078354f964a52077731fe3'
           },
           {
-              title: 'Shine Studios',
-              name : 'Shine Studios',
-              imgSrc : 'img/shinestudios.jpg',
+              title: 'Midnight Cowboy',
+              name : 'Midnight Cowboy',
+              imgSrc : 'img/midnight.jpg',
               imgAttribution : 'http://www.shinestudiosaustin.com/images/control-room-new.jpg',
-              location: {lat: 30.261618, lng: -97.730083},
-              foursquare_id: '4e0d1f2552b1b27c1b7a9dfd'
+              location: {lat: 30.26709, lng: -97.7399655},
+              foursquare_id: '4f5abbc9e4b036906f7718da'
           },
           {
               title: 'Franklin Barbecue',
@@ -154,7 +154,8 @@ function apiFallback(input){
   if (input === 'gmaps'){
     console.log('gmaps');
   } else if (input === 'foursquare'){
-    console.log('foursquare')
+    console.log('foursquare');
+    window.alert('foursquare info is not available');
   }
 }
 
@@ -276,8 +277,6 @@ function ajaxCall(foursquareId,index){
       xhr.open('GET', apiCall);
 
 
-
-
       xhr.onload = function() {
           if (xhr.status === 200) {
               var data = JSON.parse(xhr.responseText);
@@ -288,14 +287,22 @@ function ajaxCall(foursquareId,index){
           else {
 
           apiFallback('foursquare');
-          }
+          xhr.onerror = function() {
+            console.log("** Foresquare data has failed to load. Please refresh or try again later");
+          };
+
+        }
+
       };
+
       xhr.send();
 
     } else {
-      // do nothing
+
 
     }
+
+
 
 };
 
@@ -343,6 +350,8 @@ function setInfoWindowContent(input){
 
   function addInfoWindowContent(){
 
+    infoWindowTemplate = 'div class ="window-content"><ul>';
+
     markerData.forEach(function(item, i){
 
       var label = item.label,
@@ -356,35 +365,11 @@ function setInfoWindowContent(input){
           } else {
             labelData = '<strong>' + label + '</strong>' + ": " + data;
           }
-
-          contentItem = document.createElement('li');
-          contentItem.innerHTML = labelData;
-
-          contentList.appendChild(contentItem);
-          infoWindowTemplate.appendChild(contentList);
-
-        } else {
-            label = 'no go';
-            data = 'stop';
-            labelData = '';
-
-
-          if (i == 0){
-
-            labelData = '<h2>' + data + '</h2>';
-          } else {
-            labelData = '<strong>' + label + '</strong>' + ": " + 'Data not available' ;
-          }
-
-          contentItem = document.createElement('li');
-          contentItem.innerHTML = labelData;
-
-          contentList.appendChild(contentItem);
-          infoWindowTemplate.appendChild(contentList);
-
         }
-
+        infoWindowTemplate += '<li>' + labelData + '</li>';
       });
+
+      infoWindowTemplate += '</ul></div>';
 
   }; addInfoWindowContent();
 
