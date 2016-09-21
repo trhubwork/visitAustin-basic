@@ -314,7 +314,7 @@ function ajaxCall(foursquareId,index){
       input.setAnimation(google.maps.Animation.BOUNCE);
   // get the pin to sop bouncing after one bounce
       function sansBounce() {
-        var noBounce = setTimeout(stopBounce,1450);
+        var noBounce = setTimeout(stopBounce,1410);
         function stopBounce() {
           input.setAnimation(null);
         }
